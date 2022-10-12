@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-public class Produto{
+public class Conta{
     private long number;
     private int statusAccount;
     private double accountBalance = 0;
@@ -12,7 +12,7 @@ public class Produto{
 	Scanner sc = new Scanner(System.in);
 
     
-    public Produto(long number, int statusAccount, double accountBalance, String openingDate) {
+    public Conta(long number, int statusAccount, double accountBalance, String openingDate) {
 		this.number = number;
 		this.statusAccount = statusAccount;
 		this.accountBalance = accountBalance;
@@ -27,7 +27,7 @@ public class Produto{
         this.number = number;
     }
     
-    //fazer status
+    //fazer status imagino que parecido com a classe "TipoProduto do trabalho dos meninos"
 
     public double getAccountBalance(){
         return accountBalance;
@@ -55,7 +55,7 @@ public class Produto{
     }
 
     public static LocalDate dateInput(String userInput) { 
-        // estudar melhor esse input
+        // estudar melhor esse input para fazer a condicional
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/mm/yyyy");
         LocalDate date = LocalDate.parse(userInput, dateFormat);
     
