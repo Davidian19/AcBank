@@ -1,11 +1,13 @@
 package br.com.cesarschool.poo.geral;
-
+/**
+ mudei algumas variáveis, mas é preciso rever a logica
+ */
 public class RepositorioConta{
 
 	private static final int TAMANHO_MAX_CONTAS = 1000;
 	private static RepositorioConta instancia = null;
 	
-	private Produto[] cadastroProduto = new Produto[TAMANHO_MAX_CONTAS];
+	private Conta[] cadastroConta = new Conta[TAMANHO_MAX_CONTAS];
 	private int tamanhoAtual = 0;
 	
 	
@@ -20,15 +22,15 @@ public class RepositorioConta{
 		return instancia; 
 	}
 	
-	public boolean incluir(Produto produto) {
-		if (buscarIndice(produto.getNumber()) != -1) {
+	public boolean incluir(Conta Conta) {
+		if (buscarIndice(Conta.getNumber()) != -1) {
 			return false;
 		} else if (tamanhoAtual == TAMANHO_MAX_CONTAS - 1) {
 			return false;
 		} else {
-			for (int i = 0; i < cadastroProduto.length; i++) {
-				if (cadastroProduto[i] == null) {
-					cadastroProduto[i] = produto; 
+			for (int i = 0; i < cadastroConta.length; i++) {
+				if (cadastroConta[i] == null) {
+					cadastroConta[i] = Conta; 
 					break;
 				}
 			}
@@ -36,40 +38,40 @@ public class RepositorioConta{
 			return true; 
 		}
 	}
-	public boolean alterar(Produto produto) {
-		int indice = buscarIndice(produto.getNumber()); 
+	public boolean alterar(Conta Conta) {
+		int indice = buscarIndice(Conta.getNumber()); 
 		if (indice == -1) {
 			return false;
 		} else {
-			cadastroProduto[indice] = produto;
+			cadastroConta[indice] = Conta;
 			return true; 
 		}
 	}
 	
-	public Produto buscar(long codigo) {
-		int indice = buscarIndice(codigo);
+	public Conta buscar(long number) {
+		int indice = buscarIndice(number);
 		if (indice == -1) {
 			return null;
 		} else {
-			return cadastroProduto[indice];
+			return cadastroConta[indice];
 		}
 	}
 	
-	public boolean excluir(long codigo) {
-		int indice = buscarIndice(codigo);
+	public boolean excluir(long number) {
+		int indice = buscarIndice(number);
 		if (indice == -1) {
 			return false;
 		} else {
-			cadastroProduto[indice] = null;
+			cadastroConta[indice] = null;
 			tamanhoAtual--;
 			return true;
 		}		
 	}
 	
-	private int buscarIndice(long codigo) {		
-		for (int i = 0; i < cadastroProduto.length; i++) {
-			Produto produto = cadastroProduto[i];
-			if (produto != null && produto.getNumber() == codigo) {
+	private int buscarIndice(long number) {		
+		for (int i = 0; i < cadastroConta.length; i++) {
+			Conta Conta = cadastroConta[i];
+			if (Conta != null && Conta.getNumber() == number) {
 				return i; 				
 			}
 		}
