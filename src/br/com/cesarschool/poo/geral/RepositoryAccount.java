@@ -2,13 +2,14 @@ package br.com.cesarschool.poo.geral;
 
 import java.time.LocalDate;
 
-public class RepositorioAccount {
+public class RepositoryAccount {
 		
 		private static final int MAX_ACCOUNT = 100000000;
 
 
 		private Account[] arrayAccount = new Account[MAX_ACCOUNT];
 		private int atualLength = 0;
+		
 		
 		private int searchIndice(long number) {	
 			for (int i = 0; i < arrayAccount.length; i++) {
