@@ -2,9 +2,10 @@ package br.com.cesarschool.poo.geral;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class Account{
-    private long number;
+	private long number;
     private int statusAccountId;
     private String statusAccountDescription;
     private double accountBalance;
@@ -33,7 +34,10 @@ public class Account{
 	public int getStatusId() {
 		return statusAccountId;
 	}
-    public String getStatusDescription() {
+	public int obterPorCodigo(int codigo) {
+		return getStatusId();
+	}
+	public String getStatusDescription() {
 		if(this.getStatusId() == 1){
             return "CONTA ATIVA";
         } else if (this.getStatusId() == 2){
@@ -101,31 +105,59 @@ public class Account{
         }
         
     }
+
+	public short calcularEscore() {
+		LocalDate dataAgora = LocalDate.now();
+		short score = -2;
+		long f;
+		if(this.getStatusId() == 3) {
+			score = -1;
+			return score;
+		} else if(this.getStatusId() == 2) {
+			score = 0;
+			return score;
+			
+		} else if(this.getStatusId() == 1) {
+			long tempoDeVida = openingDate.until(dataAgora,ChronoUnit.DAYS);
+			f = (long) (this.getBalance() * 3.0 + tempoDeVida * 2L);
+			if(f < 5800) {
+				score = 1;
+			} else if (f > 5800 && f < 13000) {
+				score = 2;
+			} else if(f > 13000 && f < 39000) {
+				score = 3;
+			} else {
+				score = 4;
+			}
+		}
+		return score;
+	}
     
-    public boolean isAccount() {
+    public int isAccount() {
 		LocalDate now = LocalDate.now();
 		LocalDate monthVerification = now.minusMonths(1);
-		if(isNumber()) {
-			return false;
-		} else if (isStatusId()) {
-			return false;
-		} else if (isDate(now, monthVerification)) {
-			return false;
+		if(this.getNumber() < 0) {
+			return 1;
+		} else if (this.getStatusId() > 3 && this.getStatusId() < 1) {
+			return 2;
+		} else if (!(this.openingDate.isAfter(monthVerification)) ||
+			(!(this.openingDate.isBefore(now) || this.openingDate.equals(now)))) {
+			return 3;
+		}else{
+			return 0;
 		}
-		
-		return true;
 	}
 
     public void creditar(double valorCredito) {
-		if(!(this.getStatusId() == StatusConta.ENCERRADA)) {
+		if(!(this.getStatusId() == 3 && this.getStatusId() == 2)){
 			if(valorCredito >= 0) {
-				this.setSaldo(valorCredito + this.getBalance());
+				this.setBalance(valorCredito + this.getBalance());
 			}
 		}
 	}
 	
 	public void debitar(double valorDebito) {
-		if(!(this.getStatusId() == StatusConta.BLOQUEADA)) {
+		if(!(this.getStatusId() == 3 && this.getStatusId() == 2)) {
 			if(valorDebito > 0 && this.getBalance() > valorDebito) {
 				this.accountBalance -= valorDebito;
 			}
