@@ -1,10 +1,13 @@
-package br.com.cesarschool.poo.geral;
+package br.com.cesarschool.poo.repositorios;
+import br.com.cesarschool.poo.entidades.Account;
+import br.com.cesarschool.poo.mediators.MediatorsAcount;
+import br.com.cesarschool.poo.mediators.*;
 
 import java.time.LocalDate;
 
-public class RepositoryAccount {
+public class RepositoryAccount<Mediator> {
 		
-		private static final int MAX_ACCOUNT = 100000000;
+		private static final int MAX_ACCOUNT = 99999999;
 
 
 		private Account[] arrayAccount = new Account[MAX_ACCOUNT];
@@ -155,27 +158,27 @@ public class RepositoryAccount {
 			}
 		}
 		
-		public boolean creditarValor(double valorCreditado, Account account) {
+		public boolean creditarValor(double valorCreditado, Account account, MediatorsAcount mediator) {
 			int indice = searchIndice(account.getNumber()); 
 			
 			if (indice == -1) {
 				return false;
 			} 
 			else {
-				account.creditar(valorCreditado);
+				mediator.creditar(valorCreditado, account);
 				arrayAccount[indice] = account;
 				return true; 
 			}
 		}
 		
-		public boolean debitar(double valorDebitar, Account account) {
+		public boolean debitarCredito(double valorDebitar, Account account, Mediator mediator) {
 			int indice = searchIndice(account.getNumber()); 
 			
 			if (indice == -1) {
 				return false;
 			} 
 			else {
-				account.debitar(valorDebitar);
+				((MediatorsAcount) mediator).debitar(valorDebitar, account);
 				arrayAccount[indice] = account;
 				return true; 
 			}
