@@ -1,21 +1,21 @@
-package br.com.cesarschool.poo.geral;
+package br.com.cesarschool.poo.entidades;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class Account{
-	private long number;
-    private int statusAccountId;
-    private String statusAccountDescription;
-    private double accountBalance;
-    private LocalDate openingDate;
+	public long number;
+    public int statusAccountId;
+    public String statusAccountDescription;
+    public double accountBalance;
+    public LocalDate openingDate;
 
     //constructor
     public Account(long number, int statusAccountId, String openingDate) {
 		this.setNumber(number);
 		this.setStatus(statusAccountId);
-        this.setBalance(accountBalance);
+        this.setBalance(accountBalance = 0);
 		this.setOpeningDate(openingDate);
 	}
 
@@ -67,13 +67,6 @@ public class Account{
 		this.accountBalance = accountBalance;
 
 	}
-	public boolean isAccountBalance() {
-		if(this.accountBalance > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 
     //validar conta
     public boolean isNumber(){
@@ -109,7 +102,7 @@ public class Account{
 	public short calcularEscore() {
 		LocalDate dataAgora = LocalDate.now();
 		short score = -2;
-		long f;
+		long scoreReferency;
 		if(this.getStatusId() == 3) {
 			score = -1;
 			return score;
@@ -118,13 +111,13 @@ public class Account{
 			return score;
 			
 		} else if(this.getStatusId() == 1) {
-			long tempoDeVida = openingDate.until(dataAgora,ChronoUnit.DAYS);
-			f = (long) (this.getBalance() * 3.0 + tempoDeVida * 2L);
-			if(f < 5800) {
+			long lifeTime = openingDate.until(dataAgora,ChronoUnit.DAYS);
+			scoreReferency = (long) (this.getBalance() * 3.0 + lifeTime * 2L);
+			if(scoreReferency < 5800) {
 				score = 1;
-			} else if (f > 5800 && f < 13000) {
+			} else if (scoreReferency > 5800 && scoreReferency < 13000) {
 				score = 2;
-			} else if(f > 13000 && f < 39000) {
+			} else if(scoreReferency > 13000 && scoreReferency < 39000) {
 				score = 3;
 			} else {
 				score = 4;
@@ -133,20 +126,6 @@ public class Account{
 		return score;
 	}
     
-    public int isAccount() {
-		LocalDate now = LocalDate.now();
-		LocalDate monthVerification = now.minusMonths(1);
-		if(this.getNumber() < 0) {
-			return 1;
-		} else if (this.getStatusId() > 3 && this.getStatusId() < 1) {
-			return 2;
-		} else if (!(this.openingDate.isAfter(monthVerification)) ||
-			(!(this.openingDate.isBefore(now) || this.openingDate.equals(now)))) {
-			return 3;
-		}else{
-			return 0;
-		}
-	}
 
     public void creditar(double valorCredito) {
 		if(!(this.getStatusId() == 3 && this.getStatusId() == 2)){
