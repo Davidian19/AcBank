@@ -1,7 +1,6 @@
 package br.com.cesarschool.poo.entidades;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class Account{
@@ -10,13 +9,17 @@ public class Account{
     public String statusAccountDescription;
     public double accountBalance;
     public LocalDate openingDate;
+	private Correntista correntista; 
+	private boolean poupanca;
 
     //constructor
-    public Account(long number, int statusAccountId, String openingDate) {
+    public Account(long number, int statusAccountId, String openingDate, boolean poupanca) {
+		super();
 		this.setNumber(number);
 		this.setStatus(statusAccountId);
         this.setBalance(accountBalance = 0);
 		this.setOpeningDate(openingDate);
+		this.setPoupanca(poupanca);
 	}
 
     //Number
@@ -66,6 +69,13 @@ public class Account{
 	public void setBalance(double accountBalance) {
 		this.accountBalance = accountBalance;
 
+	}
+	//correntista
+	public Correntista getCorrentista() {
+		return correntista;
+	}
+	public void setCorrentist(Correntista correntista) {
+		this.correntista = correntista;
 	}
 
     //validar conta
@@ -125,6 +135,13 @@ public class Account{
 		}
 		return score;
 	}
+
+	public boolean isPoupanca() {
+        return poupanca;
+    }
+    public void setPoupanca(boolean poupanca) {
+        this.poupanca = poupanca;
+    }
     
 
     public void creditar(double valorCredito) {

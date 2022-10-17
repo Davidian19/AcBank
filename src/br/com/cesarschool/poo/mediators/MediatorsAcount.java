@@ -2,6 +2,7 @@ package br.com.cesarschool.poo.mediators;
 
 import java.time.LocalDate;
 import br.com.cesarschool.poo.entidades.Account;
+import br.com.cesarschool.poo.mediators.CorrentistaMediators;
 
 
 public class MediatorsAcount{
@@ -13,6 +14,7 @@ public class MediatorsAcount{
 	public static final int DATA_ABERTURA_INVALIDA = 3;
 	
 	public static MediatorsAcount INSTANCY;
+	private CorrentistaMediators correntistaMediator = new CorrentistaMediators();
 	
 	public static MediatorsAcount getInstancia() {
 		if(INSTANCY == null) {
