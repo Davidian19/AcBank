@@ -1,7 +1,11 @@
 package br.com.cesarschool.poo.telas;
 
+import br.com.cesarschool.poo.entidades.Correntista;
+import br.com.cesarschool.poo.entidades.poupancaAccount;
+import br.com.cesarschool.poo.repositorios.CorrentistRepository;
 import br.com.cesarschool.poo.repositorios.RepositoryAccount;
 import br.com.cesarschool.poo.entidades.Account;
+import br.com.cesarschool.poo.mediators.CorrentistaMediators;
 import br.com.cesarschool.poo.mediators.MediatorsAcount;
 
 
@@ -89,6 +93,7 @@ public class InterfaceAccount {
 		
 		private void processaInclusao() {
 			Account account = capturaAccount(NUMERO_DESCONHECIDO);
+			Correntista correntista = capturaCorrentist(NUMERO_DESCONHECIDO);
 			
 			String validationReturn = validate(account);
 			if (validationReturn == null) {
@@ -123,6 +128,7 @@ public class InterfaceAccount {
 		
 		
 		private Account capturaAccount(long numberDaAlteracao) {
+			Account account;
 			long numberAccount;
 			if (numberDaAlteracao == NUMERO_DESCONHECIDO) {
 				System.out.println("---------------------------------------");
@@ -131,11 +137,33 @@ public class InterfaceAccount {
 			} else {
 				numberAccount = numberDaAlteracao;
 			}
+			Correntista correntista = capturaCorrentista(numberAccount);
 			System.out.print("Digite a data em que sua conta foi aberta [YYYY-MM-DD]: ");
 			String dataAberturaString = ENTRADA.next();
 			System.out.print("Selecione o tipo da conta (1, 2 ou 3): ");
 			int codigoStatus = ENTRADA.nextInt();
-			return new Account(numberAccount, codigoStatus, dataAberturaString);
+			System.out.print("A conta é corrente ou poupança?(1 ou 2) ");
+			int codigoPoupanca = ENTRADA.nextInt();
+			boolean poupanca = false;
+			if(codigoPoupanca == 1){
+				poupanca = true;
+			} else{
+				poupanca = false;
+			}
+			account = new Account(numberAccount, codigoStatus, dataAberturaString, poupanca);
+			account.setCorrentist(correntista);
+			return account;
+		}
+		private Correntista capturaCorrentista(long numberAccount) {
+			return null;
+		}
+
+		private Correntista capturaCorrentist(long numberAccount) {
+			System.out.print("Digite o cpf do Correntista: ");
+			String cpf = ENTRADA.next();
+			System.out.print("Digite nome do Correntista: ");
+			String correntistName = ENTRADA.next();
+			return new Correntista(cpf, correntistName);
 		}
 		
 		private void changeProcessing(long number) {
@@ -168,12 +196,20 @@ public class InterfaceAccount {
 				System.out.println("Conta não encontrada.");
 				return NUMERO_DESCONHECIDO;
 			} else {
+				Correntista correntista = CorrentistaMediators.searchCorrentist(account.getCorrentista().getCpf());
 				System.out.println("---------------------------------------");
 				System.out.println("Numero da conta: " + account.getNumber());
 				System.out.println("Data de Abertura da conta: " + account.getDataAbertura());
 				System.out.println("Saldo disponível: " + account.getBalance());
 				System.out.println("Status da conta: " + account.getStatusDescription());
 				System.out.println("Score da conta: " + account.calcularEscore());
+					
+				if (account.isPoupanca()) {
+					System.out.println("Taxa de juros: " + ((poupancaAccount) account).getTaxaJuros());
+					System.out.println("Total depositos: " + ((poupancaAccount) account).getTotalDepositos());
+				}
+				System.out.println("Nome: " + correntista.getCorrentistName());
+				System.out.println("Cpf: " + correntista.getCpf());
 				return number;
 			}
 		}

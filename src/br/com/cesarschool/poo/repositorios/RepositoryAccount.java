@@ -1,11 +1,10 @@
 package br.com.cesarschool.poo.repositorios;
 import br.com.cesarschool.poo.entidades.Account;
 import br.com.cesarschool.poo.mediators.MediatorsAcount;
-import br.com.cesarschool.poo.mediators.*;
 
 import java.time.LocalDate;
 
-public class RepositoryAccount<Mediator> {
+public class RepositoryAccount {
 		
 		private static final int MAX_ACCOUNT = 99999999;
 
@@ -13,7 +12,9 @@ public class RepositoryAccount<Mediator> {
 		private Account[] arrayAccount = new Account[MAX_ACCOUNT];
 		private int atualLength = 0;
 		
-		
+		public RepositoryAccount(){
+
+		}
 		private int searchIndice(long number) {	
 			for (int i = 0; i < arrayAccount.length; i++) {
 				Account account = arrayAccount[i];
@@ -171,7 +172,7 @@ public class RepositoryAccount<Mediator> {
 			}
 		}
 		
-		public boolean debitarCredito(double valorDebitar, Account account, Mediator mediator) {
+		public <Mediator> boolean debitarCredito(double valorDebitar, Account account, Mediator mediator) {
 			int indice = searchIndice(account.getNumber()); 
 			
 			if (indice == -1) {
